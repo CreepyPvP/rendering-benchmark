@@ -20,7 +20,7 @@ struct Window {
     GLFWwindow* handle;
 };
 
-// #define RENDERER_1
+#define RENDERER_1
 #define OBJECTS 10000
 
 static Window globalWindow;
@@ -219,13 +219,13 @@ int main() {
         GL(glClear(GL_COLOR_BUFFER_BIT));
 
 #ifdef RENDERER_1
+        GL(glUseProgram(cirlceShader.id));
+        setUniformMat4(cirlceShader.uProjection, &projection);
+        setUniformMat4(cirlceShader.uView, &view);
+        GL(glBindVertexArray(squareVao));
         for (int i = 0; i < OBJECTS; ++i) {
             glm::mat4 model = glm::translate(nonTranslatedModel, glm::vec3(0, 0, 0));
-            GL(glUseProgram(cirlceShader.id));
-            GL(glBindVertexArray(squareVao));
             setUniformMat4(cirlceShader.uModel, &model);
-            setUniformMat4(cirlceShader.uView, &view);
-            setUniformMat4(cirlceShader.uProjection, &projection);
             GL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
         }
 #else
